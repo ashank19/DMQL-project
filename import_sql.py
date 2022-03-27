@@ -1,15 +1,15 @@
 #import required packages
 import pandas as pd
-import psycopg2
+# import psycopg2
 
 #connect to the database
-conn = psycopg2.connect("dbname=DMQL_project user=postgres password=abc@123")
+# conn = psycopg2.connect("dbname=DMQL_project user=postgres password=abc@123")
 
-#read the data from the csv file
-dataframe = pd.read_csv("C:/Users/Mariya/OneDrive/Desktop/Spring22/DMQL/india-districts-census-2011.csv")
+# #read the data from the csv file
+# dataframe = pd.read_csv("C:/Users/Mariya/OneDrive/Desktop/Spring22/DMQL/india-districts-census-2011.csv")
 
 #get the DB schema:
-print(pd.io.sql.get_schema(dataframe.reset_index(), 'data'))
+# print(pd.io.sql.get_schema(dataframe.reset_index(), 'data'))
 
 #iterate over the data rows in order to get the insert query
 #created the blueprint of the query and generated the data to be populated trhough query
