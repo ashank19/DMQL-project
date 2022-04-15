@@ -1,19 +1,27 @@
 #import required packages
 import pandas as pd
-# import psycopg2
+import psycopg2
+
+# cursor.executemany()
 
 #connect to the database
-# conn = psycopg2.connect("dbname=DMQL_project user=postgres password=abc@123")
+conn = psycopg2.connect(database='DMQL_project', user='postgres', password='abc@123')
+print("connection successful")
+
+
+cursor = conn.cursor()
 
 # #read the data from the csv file
-# dataframe = pd.read_csv("C:/Users/Mariya/OneDrive/Desktop/Spring22/DMQL/india-districts-census-2011.csv")
+dataframe = pd.read_csv("C:/Users/Mariya/OneDrive/Desktop/Spring22/DMQL/DMQL-project/india-districts-census-2011.csv")
 
 #get the DB schema:
 # print(pd.io.sql.get_schema(dataframe.reset_index(), 'data'))
-
+# print(dataframe.iloc[150:,:])
+# exit()
+insert_lst = list()
 #iterate over the data rows in order to get the insert query
 #created the blueprint of the query and generated the data to be populated trhough query
-for i in range(21):
+for i in range(640):
     insert_str = "INSERT INTO data VALUES("
     insert_str+=str(dataframe['District code'][i])+','+'\''+str(dataframe['State name'][i])\
                 +'\',\''+str(dataframe['District name'][i])+'\','+str(dataframe['Population'][i])+\
@@ -32,4 +40,9 @@ for i in range(21):
                     +','+str(dataframe['Age not stated'][i])\
                     +');'
     #pythonic way to generate the queries to be used on Postgres DB data insertion
-    print(insert_str)
+    # print(insert_str)
+    cursor.execute(insert_str)
+
+
+conn.commit()
+conn.close()
