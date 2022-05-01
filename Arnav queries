@@ -11,8 +11,8 @@ ORDER BY state_name
 2.
 
 SELECT   state_name,
-         (Sum(male_literate)  / Sum(male))*100    AS male literacy percentage ,
-         (sum(female_literate)/ sum(female)) *100 AS female literacy percentage
+         round((Sum(male_literate)  / Sum(male))*100)    AS male_literacy_percentage ,
+         round((sum(female_literate)/ sum(female)) *100) AS female_literacy_percentage
 FROM     state s
 JOIN     population p
 ON       s.state_code=p.state_code
@@ -33,17 +33,7 @@ HAVING   Sum(total_population)=
                   SELECT   Sum(total_population)
                   FROM     population p
                   GROUP BY p.state_code
-                  ORDER BY Sum(total_population) DESC,
-                           limit 1)SELECT   state_name,
-         Sum(total_population)
-FROM     state s
-JOIN     population p
-ON       s.state_code=p.state_code
-GROUP BY s.state_name
-HAVING   Sum(total_population)=
-         (
-                  SELECT   Sum(total_population)
-                  FROM     population p
-                  GROUP BY p.state_code
-                  ORDER BY Sum(total_population) ASC,
-                           limit 1)
+                  ORDER BY Sum(total_population) DESC
+			 Limit 1)
+				  
+				  

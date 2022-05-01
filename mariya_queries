@@ -1,3 +1,7 @@
+DROP table data, state, district, literacy, profession, population, utilities;
+
+
+
 CREATE TABLE Data (
   District_code INTEGER,
   State_name TEXT,
@@ -36,95 +40,76 @@ CREATE TABLE Data (
   Age_not_stated bigint
 );
 
-
 CREATE TABLE State (
-    State_code SERIAL PRIMARY KEY,
+    State_code Serial PRIMARY KEY,
     State_Name VARCHAR(100),
-    No_of_District BIGINT);
-
+    No_of_District INTEGER);
+	
 CREATE TABLE District (
-    District_code SERIAL PRIMARY KEY,
-	State_code BIGINT,
+    District_code Serial PRIMARY KEY,
+	State_code INTEGER,
     District_Name VARCHAR(100),
-    Rural_household BIGINT,
-	Urban_household BIGINT,
-	Foreign Key (State_code) references State(State_code));
+    Rural_household bigint,
+	Urban_household bigint,
+	Foreign Key (State_code) references State(State_code) on delete cascade);
 
 CREATE TABLE Literacy (
-    District_code BIGINT,
-	State_code BIGINT,
-    Male_Literate BIGINT,
-    Female_Literate BIGINT,
-	Below_Primary_Education BIGINT,
-	Primary_Education BIGINT,
-	Middle_Education BIGINT,
-	Secondary_Education BIGINT,
-	Higher_Education BIGINT,
-	Graduate_Education BIGINT,
-	Other_Education BIGINT,
-	Foreign Key (State_code) references State(State_code),
-	Foreign Key (District_code) references District(District_code));
+	Srno Serial PRIMARY KEY,
+    District_code INTEGER,
+	State_code INTEGER,
+    Male_Literate bigint,
+    Female_Literate bigint,
+	Below_Primary_Education bigint,
+	Primary_Education bigint,
+	Middle_Education bigint,
+	Secondary_Education bigint,
+	Higher_Education bigint,
+	Graduate_Education bigint,
+	Other_Education bigint,
+	Foreign Key (State_code) references State(State_code) on delete cascade,
+	Foreign Key (District_code) references District(District_code) on delete cascade);
 
-CREATE TABLE if not EXISTS Profession (
-    District_code BIGINT,
-	State_code BIGINT,
-    Frontline_Workers BIGINT,
-	Industrial_Workers BIGINT,
-	Non_Workers BIGINT,
-	Cultivator_Workers BIGINT,
-	Agricultural_Workers BIGINT,
-	Household_Workers BIGINT,
-	Other_Workers BIGINT,
-    Foreign Key (State_code) references State(State_code),
-	Foreign Key (District_code) references District(District_code));
+CREATE TABLE Profession (
+	Srno Serial PRIMARY KEY,
+    District_code INTEGER,
+	State_code INTEGER,
+    Frontline_Workers bigint,
+	Industrial_Workers bigint,
+	Non_Workers bigint,
+	Cultivator_Workers bigint,
+	Agricultural_Workers bigint,
+	Household_Workers bigint,
+	Other_Workers bigint,
+    Foreign Key (State_code) references State(State_code) on delete cascade,
+	Foreign Key (District_code) references District(District_code) on delete cascade);
 
-CREATE TABLE if not EXISTS Population (
-    District_code BIGINT,
-	State_code BIGINT,
-    Total_Population BIGINT,
-	Male BIGINT,
-	Female BIGINT,
-	Age_Group_0_29 BIGINT,
-	Age_Group_30_49 BIGINT,
-	Age_Group_50 BIGINT,
-	Age_not_stated BIGINT,
-    Foreign Key (State_code) references State(State_code),
-	Foreign Key (District_code) references District(District_code));
+CREATE TABLE Population (
+	Srno Serial PRIMARY KEY,
+    District_code INTEGER,
+	State_code INTEGER,
+    Total_Population bigint,
+	Male bigint,
+	Female bigint,
+	Age_Group_0_29 bigint,
+	Age_Group_30_49 bigint,
+	Age_Group_50 bigint,
+	Age_not_stated bigint,
+    Foreign Key (State_code) references State(State_code) on delete cascade,
+	Foreign Key (District_code) references District(District_code) on delete cascade);
 
-CREATE TABLE if not EXISTS Utilities (
-    District_code BIGINT,
-	State_code BIGINT,
-    LPG_or_PNG_Households BIGINT,
-	Housholds_with_Electric_Lighting BIGINT,
-	Households_with_Internet BIGINT,
-	Households_with_Computer BIGINT,
-	Foreign Key (State_code) references State(State_code),
-	Foreign Key (District_code) references District(District_code));
+CREATE TABLE Utilities (
+	Srno Serial PRIMARY KEY,
+    District_code INTEGER,
+	State_code INTEGER,
+    LPG_or_PNG_Households bigint,
+	Housholds_with_Electric_Lighting bigint,
+	Households_with_Internet bigint,
+	Households_with_Computer bigint,
+	Foreign Key (State_code) references State(State_code) on delete cascade,
+	Foreign Key (District_code) references District(District_code) on delete cascade);
 
 	
 select * from data;
-INSERT INTO data VALUES(1,'JAMMU AND KASHMIR','Kupwara',870354,474190,396164,439654,282823,156831,190899,38165,123837,105227,641290,34680,56759,7946,129679,15828,83071,762,5256,158438,23226,60616,101642,99947,74948,39709,21751,6402,600759,178435,89679,1481);
-INSERT INTO data VALUES(2,'JAMMU AND KASHMIR','Badgam',753745,398041,355704,335649,207741,127908,162578,52288,132003,82863,538879,55299,36630,29102,93835,15118,90190,1999,5892,160649,27190,68336,80862,83141,66459,41367,27950,6857,503223,160933,88978,611);
-INSERT INTO data VALUES(3,'HIMACHAL PRADESH','Chamba',519080,261320,257760,323842,186064,137778,158791,135244,119632,174403,225045,196665,9193,4521,83656,21458,96082,1615,5117,186395,13836,56272,96789,67653,64515,40440,15506,3252,306555,130606,81566,353);
-INSERT INTO data VALUES(4,'HIMACHAL PRADESH','Kangra',1510075,750591,759484,1152640,606443,546197,403756,271414,313915,361255,834905,303007,54849,15662,301652,148361,330081,8053,22753,588321,39007,127699,243617,223099,284124,192936,91236,13577,766581,419172,319420,4902);
-INSERT INTO data VALUES(5,'HIMACHAL PRADESH','Lahul AND Spiti',31564,16588,14976,21845,12897,8948,10763,8532,15190,4105,12269,11227,572,167,7329,2046,5618,61,252,17434,0,3776,5042,4011,3934,3557,2378,119,15928,9181,6200,255);
-INSERT INTO data VALUES(6,'HIMACHAL PRADESH','Kullu',437903,225452,212451,307672,174550,133122,148829,120255,193876,75208,168819,197141,12372,2707,56864,40064,91322,2623,7010,167995,20709,48384,77363,61854,58122,39081,23168,2377,244727,120510,72282,384);
-INSERT INTO data VALUES(7,'PUNJAB','Gurdaspur',2298323,1212617,1085706,1634719,907660,727059,637652,119486,625778,131360,1541185,147912,100684,30903,477639,244468,411216,14428,38445,420860,185488,180897,315156,290618,372317,243539,104345,22107,1261421,611353,423301,2248);
-INSERT INTO data VALUES(8,'PUNJAB','Kapurthala',815168,426311,388857,576567,316254,260313,235562,48603,248208,35957,531003,55252,42387,9861,176665,110555,161206,9732,23145,165433,95770,71698,127031,112774,128828,77442,48221,9501,433331,222324,157833,1680);
-INSERT INTO data VALUES(9,'PUNJAB','Jalandhar',2193590,1145211,1048379,1622537,882581,739956,639484,134988,689592,84880,1419118,85695,66664,29762,592351,299449,446200,39082,79134,330339,377791,183441,333736,304652,339758,216646,162965,34576,1159156,616431,416449,1554);
-INSERT INTO data VALUES(10,'PUNJAB','Barnala',595527,317522,278005,359831,201999,157832,178163,31168,186434,22897,386196,60340,40460,5132,103399,50276,108908,3501,10566,102577,54222,49367,90971,66695,81545,43467,23657,4665,322607,158413,114077,430);
-INSERT INTO data VALUES(11,'CHANDIGARH','Chandigarh',1055450,580663,474787,805438,465346,340092,328159,75977,385929,18207,651314,2578,1687,4799,395072,168344,231204,44283,78113,8911,289456,80406,118667,114209,124707,98786,174528,20188,602411,303748,148945,346);
-INSERT INTO data VALUES(12,'UTTARAKHAND','Uttarkashi',330086,168597,161489,215126,128237,86889,84265,73011,128367,28909,172810,117264,4387,3122,32503,21374,52621,602,4104,112148,9061,43442,46625,47640,30901,24989,18882,981,202426,75997,51245,418);
-INSERT INTO data VALUES(13,'UTTARAKHAND','Almora',622506,291081,331425,436497,231604,204893,142460,155751,201078,97133,324295,207617,10274,4312,76008,40199,109876,1830,9858,260056,21082,90864,120029,115810,76148,53026,37742,2263,351595,141238,128994,679);
-INSERT INTO data VALUES(14,'UTTARAKHAND','Champawat',259648,131125,128523,177726,102015,75711,60427,39139,62698,36868,160082,59993,4032,1570,33971,18785,37725,548,3159,85202,12839,36127,48093,45766,23610,18360,15110,1317,156916,60722,41913,97);
-INSERT INTO data VALUES(15,'UTTARAKHAND','Nainital',954605,493666,460939,696500,385779,310721,256935,119246,296424,79757,578424,137530,34742,9767,194142,99021,169001,7265,26270,193086,105577,90915,155681,157875,115317,98851,89101,6200,562548,243095,147053,1909);
-INSERT INTO data VALUES(16,'UTTARAKHAND','Udham Singh Nagar',1648902,858783,790119,1037839,598525,439314,444578,146880,450762,140696,1057444,122686,165250,26396,277126,116576,254802,7883,28053,269406,145253,179602,302653,232381,169274,113661,111062,11786,1042614,392370,212223,1695);
-INSERT INTO data VALUES(17,'UTTARAKHAND','Hardwar',1890422,1005295,885127,1178354,691411,486943,497810,80311,495152,82969,1312301,93660,103115,19955,361391,125717,279012,11947,35023,301828,186183,245515,336790,243719,165003,114114,134182,29377,1207120,435385,246229,1688);
-INSERT INTO data VALUES(18,'HARYANA','Panchkula',561293,299679,261614,405318,229862,175456,164865,46614,182831,28648,349814,26682,12827,9870,162100,69687,103455,18615,32174,70895,93656,45607,73584,60177,69163,48306,83256,8466,309078,157076,93606,1533);
-INSERT INTO data VALUES(19,'HARYANA','Ambala',1128350,598703,529647,818025,461288,356737,320120,52019,319475,52664,756211,52871,57293,15753,246222,121622,199681,12899,32767,175365,139891,89558,170110,161844,163544,97980,91472,18727,617859,308126,201685,680);
-INSERT INTO data VALUES(20,'HARYANA','Mahendragarh',922088,486665,435423,630255,380440,249815,232935,105649,212402,126182,583504,149146,38320,7639,143479,45359,135455,2624,13908,223726,44216,94273,135849,126291,132765,94245,60296,10353,530000,229392,161258,1438);
-INSERT INTO data VALUES(21,'HARYANA','Rewari',900332,474335,425997,636947,375453,261494,235326,102401,250219,87508,562605,102698,28215,9782,197032,62667,152651,5121,18092,199449,69305,81280,120860,122617,139646,95807,65143,9820,518747,230704,150557,324);
-
 
 -- insert into state
 insert into state(State_Name, No_of_District) select state_name, count(district_name) from data group by state_name;
@@ -149,7 +134,7 @@ insert into profession(district_code,State_code, Frontline_Workers,Industrial_Wo
 				select district.district_code, district.state_code, Frontline_Workers,Industrial_Workers,
 				Non_Workers,Cultivator_Workers, Agricultural_Workers, Household_Workers, Other_Workers from 
 				district, data where data.district_name=district.district_name;
-
+--select * from profession
 -- insert into utilities 
 insert into utilities(district_code,
 					  State_code, 
