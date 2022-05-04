@@ -1,4 +1,4 @@
-1.
+1. Population state wise
 
 SELECT   state_name,
          Sum(total_population) AS population
@@ -8,7 +8,7 @@ ON       s.state_code=p.state_code
 GROUP BY state_name
 ORDER BY state_name 
 
-2.
+2. Percentage of literacy gender wise of each state
 
 SELECT   state_name,
          round((Sum(male_literate)  / Sum(male))*100)    AS male_literacy_percentage ,
@@ -21,7 +21,7 @@ ON       s.state_code=l.state_code
 GROUP BY s.state_name
 ORDER BY s.state_name 
 
-3.
+3. State having maximum population
 SELECT   state_name,
          Sum(total_population)
 FROM     state s
